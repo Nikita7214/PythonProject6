@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Оформление заказа - ClimateWear</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #e9ecef;
+        }
+        h1, h2, h3 {
+            color: #343a40;
+        }
+        .container {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .btn-primary {
+            background-color: #6f4c3e;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #5a3e2e;
+        }
+        .payment-method {
+            margin-bottom: 20px;
+        }
+        .card-form {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            border: 1px solid #dee2e6;
+        }
+        .card-logos {
+            margin-top: 10px;
+        }
+        .card-logos img {
+            width: 50px;
+            margin-right: 10px;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Оформление заказа</h1>
+        <h2>Введите данные для оформления заказа:</h2>
+        <form method="post" action="{% url 'create_order' %}" id="orderForm">
+             {% csrf_token %}
+            <div class="form-group">
+                <label for="name">Имя:</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="address">Адрес доставки:</label>
+                <input type="text" class="form-control" id="address" name="address" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Телефон:</label>
+                <input type="text" class="form-control" id="phone" name="phone" required placeholder="+375(XX)-XXX-XX-XX">
+            </div>
+            <div class="form-group">
+                <h4>Общая стоимость заказа:</h4>
+                <p id="totalPriceDisplay">{{ total_price|default:"Ошибка расчета" }} руб.</p>
+
+            </div>
+            <div class="form-group">
+                <h4>Способ оплаты:</h4>
+                <div class="payment-method">
+                    <input type="radio" id="cash" name="payment_method" value="cash" checked>
+                    <label for="cash">Наличными при получении</label>
+                </div>
+                <div class="payment-method">
+                    <input type="radio" id="card" name="payment_method" value="card">
+                    <label for="card">Оплата картой онлайн</label>
+                </div>
+                <div id="cardForm" class="card-form">
+                    <h5>Данные карты</h5>
+                    <div class="card-input-group">
+                        <label for="cardNumber">Номер карты</label>
+                        <input type="text" class="form-control" id="cardNumber" name="card_number" placeholder="XXXX XXXX XXXX XXXX" maxlength="19">
+                        <div class="cardType mt-2"></div>
+                        <div id="cardError" class="error"></div>
+                    </div>
+                    <div class="card-row">
+                        <div class="card-col">
+                            <div class="card-input-group">
+                                <label for="cardExpiry">Срок действия</label>
+                                <input type="text" class="form-control" id="cardExpiry" name="card_expiry" placeholder="MM/ГГ" maxlength="5">
+                            </div>
+                        </div>
+                        <div class="card-col">
+                            <div class="card-input-group">
+                                <label for="cardCvv">CVV/CVC</label>
+                                <input type="text" class="form-control" id="cardCvv" name="card_cvv" placeholder="XX/XX" maxlength="5">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-logos">
+                        <p>Мы принимаем:</p>
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Visa_2021.svg/1280px-Visa_2021.svg.png" alt="Visa" class="visa" style="display:none;">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRDj5Z8d53TG94bKWJ1WQO75Ih3cxUb8vEmw&s" alt="MasterCard" class="mastercard" style="display:none;">
+                    </div>
+                </div>
+            </div>
+           <div class="payment-method">
+    <input type="radio" id="courierCard" name="payment_method" value="courier_card">
+    <label for="courierCard">Оплата картой курьеру</label>
+</div>
+
+            <div class="form-group">
+                <label for="comment">Комментарий к заказу:</label>
+                <textarea class="form-control" id="comment" name="comment" rows="3"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Оформить заказ</button>
+        </form>
+    </div>
+    <script>
+    $(document).ready(function() {
+        $('#phone').mask('+375(00)-000-00-00', { placeholder: "+375(XX)-XXX-XX-XX" });
+
+        $('input[name="payment_method"]').on('change', function() {
+            if ($('#card').is(':checked')) {
+                $('#cardForm').slideDown();
+            } else {
+                $('#cardForm').slideUp();
+                $('.cardType').empty();
+                $('#cardError').text('');
+                $('.visa, .mastercard').hide();
+            }
+        });
+
+        $('#cardNumber').mask('9999 9999 9999 9999', { placeholder: "XXXX XXXX XXXX XXXX" });
+        $('#cardExpiry').mask('99/99', { placeholder: "MM/ГГ" });
+      $('#cardCvv').mask('999', { placeholder: "XXX" });
+
+
+        $('#cardNumber').on('input', function() {
+            const cardNumber = $(this).val().replace(/\s/g, '');
+            const cardType = identifyCardType(cardNumber);
+
+            $('.visa').hide();
+            $('.mastercard').hide();
+
+            if (cardType === 'Visa') {
+                $('.visa').show();
+            } else if (cardType === 'MasterCard') {
+                $('.mastercard').show();
+            }
+
+            $('#cardError').text('');
+
+            if (cardNumber.length > 0 && !isValidCardNumber(cardNumber)) {
+                $('#cardError').text('Неверный номер карты.');
+            }
+        });
+
+        $('#orderForm').on('submit', function(e) {
+            e.preventDefault(); // предотвращаем отправку формы
+
+            const cardNumber = $('#cardNumber').val().replace(/\s/g, '');
+            if (!isValidCardNumber(cardNumber)) {
+                $('#cardError').text('Неверный номер карты.');
+                return;
+            }
+
+            // Отправка формы после успешной проверки
+            this.submit(); // добавлено для отправки формы
+
+            // Отображаем сообщение об успешной оплате (можно убрать или изменить)
+            $('#paymentMessage').text('Оплата успешна!').css('color', 'green').show();
+
+            // Редирект на "фейковую" страницу успеха (можно убрать или изменить)
+            setTimeout(function() {
+                window.location.href = "/order_tracking/";
+            }, 2000); // 2 секунды ожидания перед редиректом
+        });
+
+        function identifyCardType(cardNumber) {
+            const visaRegex = /^4[0-9]{12}(?:[0-9]{3})?$/; // Visa
+            const masterCardRegex = /^5[1-5][0-9]{14}$/; // MasterCard
+
+            if (visaRegex.test(cardNumber)) return 'Visa';
+            if (masterCardRegex.test(cardNumber)) return 'MasterCard';
+            return null;
+        }
+
+        function isValidCardNumber(cardNumber) {
+            let sum = 0;
+            let shouldDouble = false;
+            for (let i = cardNumber.length - 1; i >= 0; i--) {
+                let digit = parseInt(cardNumber.charAt(i), 10);
+                if (shouldDouble) {
+                    digit *= 2;
+                    if (digit > 9) digit -= 9;
+                }
+                sum += digit;
+                shouldDouble = !shouldDouble;
+            }
+            return sum % 10 === 0;
+        }
+    });
+</script>
+</body>
+</html>

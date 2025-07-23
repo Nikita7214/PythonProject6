@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>О нас - Climate Wear</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    {% load static %}
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Обновленная шапка как в первом примере */
+        .header {
+            background-color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 30px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            width: 100%;
+        }
+
+        .logo img {
+            height: 60px;
+            width: auto;
+        }
+
+        .nav {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav a {
+            text-decoration: none;
+            color: rgb(111, 79, 56);
+            font-weight: bold;
+            transition: color 0.3s;
+            font-size: 20px;
+        }
+
+        .nav a:hover {
+            color: #5a3e2e;
+        }
+
+        .auth {
+            background-color: rgb(111, 79, 56);
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+
+        .auth:hover {
+            background-color: #5a3e2e;
+        }
+
+        .cart {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .cart img {
+            height: 30px;
+            width: 30px;
+        }
+
+        .user-icon {
+            height: 35px;
+            width: 35px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .welcome {
+            font-family: 'Roboto', sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            color: #6f4c3e;
+            margin-right: 10px;
+        }
+
+        .main {
+            text-align: center;
+            padding: 40px 20px;
+            flex: 1;
+        }
+
+        .main h1 {
+            font-size: 36px;
+            margin: 20px 0;
+            font-weight: bold;
+            color: #2c3e50;
+            position: relative;
+            display: inline-block;
+        }
+
+        .main h1:after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 3px;
+            background: linear-gradient(90deg, #6f4c3e, #6F4C3E);
+            bottom: -10px;
+            left: 25%;
+            border-radius: 3px;
+        }
+
+       .content {
+    max-width: 1000px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+
+        .banner {
+            text-align: left;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .banner img {
+            width: 100%;
+            height: auto;
+            transition: transform 0.5s;
+        }
+
+        .banner:hover img {
+            transform: scale(1.03);
+        }
+
+        footer {
+            background-color: #573B30;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 16px;
+        }
+
+        ul {
+            text-align: left;
+            margin: 30px 0;
+            font-size: 18px;
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        li {
+            margin-bottom: 15px;
+            padding-left: 40px;
+            position: relative;
+            line-height: 1.6;
+        }
+
+        li::before {
+            content: '✓';
+            color:  #6F4C3E;
+            font-size: 24px;
+            position: absolute;
+            left: 0;
+            top: -2px;
+        }
+
+        .reviews-section {
+            margin: 50px 0;
+            padding: 30px;
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e0e0e0;
+        }
+
+        .review-card {
+            padding: 25px;
+            margin: 25px 0;
+            border: 1px solid #eee;
+            border-radius: 10px;
+            background: #f9f9f9;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .review-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .review-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .review-author {
+            font-weight: bold;
+            color:  #6F4C3E;
+            margin-right: 15px;
+            font-size: 18px;
+        }
+
+        .review-rating {
+            color: #ffc107;
+            font-size: 20px;
+            margin-right: 15px;
+        }
+
+        .review-date {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .review-content {
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+        .review-form {
+            margin-top: 40px;
+            padding: 30px;
+            background: #f5f5f5;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .star-rating {
+            display: flex;
+            flex-direction: row-reverse;
+            gap: 5px;
+            justify-content: flex-end;
+        }
+
+        .star-rating input[type="radio"] {
+            display: none;
+        }
+
+        .star-rating label {
+            font-size: 28px;
+            color: #ddd;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .star-rating input[type="radio"]:checked ~ label {
+            color: #ffc107;
+            transform: scale(1.1);
+        }
+
+        .star-rating label:hover,
+        .star-rating label:hover ~ label {
+            color: #ffc107;
+        }
+
+        .btn-delete-review {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: #dc3545;
+            cursor: pointer;
+            font-size: 18px;
+            opacity: 0.7;
+            transition: all 0.3s;
+        }
+
+        .btn-delete-review:hover {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        .no-reviews {
+            text-align: center;
+            padding: 30px;
+            color: #666;
+            font-size: 18px;
+        }
+
+        .section-title {
+            font-size: 28px;
+            margin-bottom: 30px;
+            color: #2c3e50;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title:after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 3px;
+            background: linear-gradient(90deg, #6f4c3e, #3a6351);
+            bottom: -10px;
+            left: 25%;
+            border-radius: 3px;
+        }
+
+        .form-control {
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            padding: 12px 15px;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: #6f4c3e;
+            box-shadow: 0 0 0 0.2rem rgba(111, 76, 62, 0.25);
+        }
+
+        textarea.form-control {
+            min-height: 120px;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                padding: 15px;
+            }
+
+            .nav {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+                margin: 15px 0;
+            }
+
+            .auth {
+                margin-top: 10px;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .main h1 {
+                font-size: 28px;
+            }
+
+            .review-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .review-author,
+            .review-rating,
+            .review-date {
+                margin-bottom: 5px;
+            }
+
+            li {
+                padding-left: 30px;
+            }
+
+            li::before {
+                font-size: 20px;
+            }
+        }
+
+        .btn-edit-review {
+            position: absolute;
+            top: 15px;
+            right: 50px;
+            color: #6f4c3e;
+            cursor: pointer;
+            font-size: 18px;
+            opacity: 0.7;
+            transition: all 0.3s;
+            background: none;
+            border: none;
+        }
+
+        .btn-edit-review:hover {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        .admin-controls {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .alert-messages {
+            margin: 20px 0;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+
+        .alert-error {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+        .alert-messages {
+    display: none;
+}
+        .alert-info {
+    background-color: #CFB9A1; /* Новый цвет фона */
+    color: #33241A; /* Новый цвет текста */
+}
+
+
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <div class="logo">
+            <a href="{% url 'home' %}">
+                <img src="{% static 'images/logo.png' %}" alt="Логотип Climate Wear">
+            </a>
+        </div>
+        <nav class="nav">
+            <a href="{% url 'home' %}">Главная</a>
+            <a href="{% url 'about' %}">О нас</a>
+            {% if not user.is_staff %}
+            <a href="{% url 'contacts' %}">Собери образ</a>
+            {% endif %}
+            {% if user.is_authenticated and user.is_staff %}
+            <a href="{% url 'admin-panel' %}">Админ Панель</a>
+            {% endif %}
+            <a href="{% url 'catalog' %}">Каталог</a>
+            {% if not user.is_staff %}
+            <a href="{% url 'cart' %}">
+                <div class="cart">
+                    <img src="{% static 'images/cart.png' %}" alt="Корзина">
+                    <span>Корзина</span>
+                </div>
+            </a>
+            {% endif %}
+            {% if user.is_authenticated and user.is_staff %}
+            <a href="{% url 'export_statistics' %}">Статистика</a>
+            {% endif %}
+        </nav>
+
+        {% if user.is_authenticated %}
+        <div class="user-info">
+            <img src="{% static 'images/ico_user.jpg' %}" alt="Пользователь" class="user-icon">
+            <span class="welcome">Добро пожаловать, {{ user.username }}!</span>
+            <a href="{% url 'logout' %}" class="auth">Выход</a>
+        </div>
+        {% else %}
+        <a href="{% url 'registration' %}" class="auth">Регистрация / Вход</a>
+        {% endif %}
+    </header>
+
+    <main class="main">
+        <div class="content">
+            <div class="banner">
+                <img src="{% static 'images/about.png' %}" alt="Climate Wear">
+            </div>
+            <h1 class="section-title">О нас</h1>
+            <p>Добро пожаловать в «Climate Wear» — ваш надежный помощник в выборе одежды, основанной на актуальных
+                погодных условиях и вашем местоположении. Мы понимаем, что правильный выбор одежды может существенно
+                повлиять на ваше настроение и комфорт в течение дня, поэтому разработали веб-приложение, которое делает
+                этот процесс простым и удобным.</p>
+            <p>Наша миссия заключается в том, чтобы помочь вам всегда выглядеть стильно и чувствовать себя комфортно,
+                независимо от капризов погоды. Мы предлагаем интуитивно понятный интерфейс, который позволяет быстро
+                находить подходящую одежду, исходя из текущих климатических условий.</p>
+
+            <h2 class="section-title">Что мы предлагаем</h2>
+            <ul>
+                <li><strong>Удобный каталог товаров:</strong> Исследуйте разнообразие одежды, доступной для всех сезонов
+                    и погодных условий.</li>
+                <li><strong>Онлайн-карты:</strong> Выберите свое местоположение и получите рекомендации по одежде в
+                    зависимости от текущей погоды в вашем регионе.</li>
+                <li><strong>Пользовательский профиль:</strong> Зарегистрируйтесь и управляйте своим профилем —
+                    просматривайте личные данные и оформляйте заказы с легкостью.</li>
+                <li><strong>Отзывы пользователей:</strong> Делитесь своим мнением о товарах и читайте отзывы других
+                    покупателей.</li>
+                <li><strong>Администраторская панель:</strong> Наша команда управляет базой данных товаров и пользователей
+                    для постоянного улучшения сервиса.</li>
+            </ul>
+
+            <p>Мы стремимся предоставить вам лучший опыт покупок онлайн, поэтому постоянно работаем над улучшением
+                функциональности нашего приложения. Присоединяйтесь к сообществу «Climate Wear» и позвольте нам помочь
+                вам оставаться стильными и готовыми к любым погодным условиям!</p>
+
+            <div class="reviews-section">
+                <h2 class="section-title">Отзывы о нас</h2>
+
+                {% if messages %}
+                <div class="alert-messages">
+                    {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                {% if user.is_authenticated and not user.is_staff %}
+                <div class="review-form">
+                    <h3>Оставьте ваш отзыв</h3>
+                    <form method="POST" action="{% url 'submit_review' %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label>Оценка:</label>
+                            <div class="star-rating">
+                                {% for i in "54321" %}
+                                <input type="radio" id="star{{ i }}" name="rating" value="{{ i }}" required>
+                                <label for="star{{ i }}" title="{{ i }}">★</label>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <textarea class="form-control" name="content" rows="4"
+                                placeholder="Поделитесь вашим мнением о нашем сервисе..." required></textarea>
+                        </div>
+                        <button type="submit" class="auth">
+                            <i class="fas fa-paper-plane"></i> Отправить отзыв
+                        </button>
+                    </form>
+                </div>
+                {% else %}
+                <div class="alert alert-info text-center">
+                    <p>Чтобы оставить отзыв, пожалуйста <a href="{% url 'registration' %}" class="auth">войдите</a>
+                        или <a href="{% url 'registration' %}" class="auth">зарегистрируйтесь</a>.</p>
+                </div>
+                {% endif %}
+
+                <div class="reviews-list">
+                    {% for review in reviews %}
+                    <div class="review-card">
+                        <div class="admin-controls">
+                            {% if user.is_authenticated and user.is_staff %}
+                            <form method="POST" action="{% url 'delete_review' review.id %}" class="delete-review-form">
+                                {% csrf_token %}
+                                <button type="submit" class="btn-delete-review" title="Удалить отзыв">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </form>
+                            {% endif %}
+                        </div>
+                        <div class="review-header">
+                            <span class="review-author">{{ review.author.username }}</span>
+                            <div class="review-rating">
+                                {% for i in "12345" %}
+                                {% if forloop.counter <= review.rating %}
+                                ★
+                                {% else %}
+                                ☆
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                            <span class="review-date">{{ review.created_at|date:"d.m.Y H:i" }}</span>
+                        </div>
+                        <div class="review-content">
+                            <p>{{ review.content }}</p>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="no-reviews">
+                        <p>Пока нет отзывов. Будьте первым!</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Climate Wear. Все права защищены.</p>
+    </footer>
+
+    <script>
+        // Подтверждение удаления отзыва
+        document.querySelectorAll('.delete-review-form').forEach(form => {
+            form.addEventListener('submit', function (e) {
+                if (!confirm('Вы уверены, что хотите удалить этот отзыв?')) {
+                    e.preventDefault();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Каталог - Climate Wear</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #e9ecef;
+        }
+        .header {
+            background-color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 30px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .logo img {
+            height: 60px;
+            width: auto;
+        }
+        .nav {
+            display: flex;
+            gap: 20px;
+            flex-grow: 1;
+            justify-content: center;
+        }
+        .nav a {
+            text-decoration: none;
+            color: rgb(111, 79, 56);
+            font-weight: bold;
+            transition: color 0.3s;
+            font-size: 20px;
+        }
+        .nav a:hover {
+            color: #5a3e2e;
+        }
+        .auth {
+            background-color: rgb(111, 79, 56);
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+        .auth:hover {
+            background-color: rgb(90, 63, 44);
+        }
+        .cart {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .cart img {
+            height: 30px;
+            width: 30px;
+        }
+        .main {
+            text-align: center;
+            padding: 30px 20px;
+        }
+        .main h2 {
+            font-size: 32px;
+            margin-top: 20px;
+            font-weight: bold;
+            color: rgb(111, 79, 50);
+        }
+        .search-container {
+            margin: 20px auto;
+        }
+        #searchInput {
+            padding: 10px 15px;
+            border-radius: 20px;
+            border: 1px solid #6f4f38;
+            outline: none;
+            transition: all 0.3s;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        #searchInput:focus {
+            box-shadow: 0 0 5px rgba(111, 79, 56, 0.5);
+            border-width: 2px;
+        }
+        .filter-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            margin-bottom: 20px;
+        }
+        .categories a {
+            text-decoration: none;
+            color: rgb(111, 79, 50);
+            font-weight: bold;
+            margin: 0 10px;
+            padding: 5px 10px;
+            border-radius: 15px;
+            transition: background-color 0.3s;
+        }
+        .categories a:hover, .categories a.active {
+            background-color: rgba(111, 79, 50, 0.2);
+        }
+        .catalog {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+        .catalog-item {
+            background: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            min-height: 600px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+        }
+        .catalog-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .catalog-item img {
+            width: 100%;
+            height: 420px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+        .sizes select {
+            margin: 5px 0;
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        footer {
+            background-color: #ffffff;
+            padding: 20px;
+            margin-top: 30px;
+            box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
+        }
+        footer h1 {
+            font-size: 20px;
+            color: rgb(111, 79, 56);
+        }
+        .btn-primary {
+            background-color: rgb(111, 79, 50);
+            border-color: rgb(111, 79, 50);
+        }
+        .btn-primary:hover {
+            background-color: rgb(90, 63, 40);
+            border-color: rgb(90, 63, 40);
+        }
+        .old-price {
+            text-decoration: line-through;
+            color: #999;
+        }
+        .discount {
+            color: rgb(111, 79, 56);
+            font-weight: bold;
+        }
+        .color-selection {
+            margin: 10px 0;
+        }
+        .color-options {
+            display: flex;
+            gap: 10px;
+            margin-top: 5px;
+            flex-wrap: wrap;
+        }
+        .color-option {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        .color-option input[type="radio"] {
+            display: none;
+        }
+        .color-circle {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 2px solid #ddd;
+            transition: border-color 0.3s;
+        }
+        .color-option input[type="radio"]:checked + .color-circle {
+            border-color: #6f4f38;
+            box-shadow: 0 0 5px rgba(111, 79, 56, 0.5);
+        }
+        .color-option:hover .color-circle {
+            border-color: #6f4f38;
+        }
+        .no-results {
+            text-align: center;
+            padding: 50px;
+            font-size: 18px;
+            color: #6f4f38;
+            display: none;
+        }
+        .discount-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: #dc3545;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 14px;
+            z-index: 10;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .filter-select {
+            padding: 10px 35px 10px 15px;
+            border-radius: 25px;
+            border: 2px solid #6f4f38;
+            background-color: white;
+            color: #6f4f38;
+            font-size: 15px;
+            font-weight: 500;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            cursor: pointer;
+            min-width: 200px;
+            transition: all 0.3s;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236f4f38' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 12px;
+        }
+        .filter-select:hover {
+            background-color: #f8f8f8;
+        }
+        .filter-select:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(111, 79, 56, 0.2);
+        }
+        .error-message {
+            color: #dc3545;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+        .is-invalid {
+            border-color: #dc3545 !important;
+        }
+        .user-icon {
+            height: 35px;
+            width: 35px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .welcome {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            color: #6f4c3e;
+            margin-right: 10px;
+        }
+        .link {
+            color: #6f4f38;
+            text-decoration: underline;
+        }
+        .link:hover {
+            color: #5a3e2e;
+        }
+    </style>
+</head>
+<body>
+    {% load static %}
+    <header class="header">
+        <div class="logo">
+           <a href="{% url 'home' %}">
+        <img src="{% static 'images/logo.png' %}" alt="Логотип Climate Wear">
+    </a>
+        </div>
+        <nav class="nav">
+            <a href="{% url 'home' %}">Главная</a>
+            <a href="{% url 'about' %}">О нас</a>
+            {% if not user.is_staff %}
+            <a href="{% url 'contacts' %}">Собери образ</a>
+            {% endif %}
+            {% if user.is_authenticated and user.is_staff %}
+            <a href="{% url 'admin-panel' %}">Админ Панель</a>
+            {% endif %}
+            <a href="{% url 'catalog' %}">Каталог</a>
+            {% if not user.is_staff %}
+            <a href="{% url 'cart' %}">
+                <div class="cart">
+                    <img src="{% static 'images/cart.png' %}" alt="Корзина">
+                    <span>Корзина</span>
+                </div>
+            </a>
+            {% endif %}
+             {% if user.is_authenticated and user.is_staff %}
+ <a href="{% url 'export_statistics' %}">Статистика</a>
+    {% endif %}
+        </nav>
+
+        {% if user.is_authenticated %}
+            <div class="user-info">
+                <img src="{% static 'images/ico_user.jpg' %}" alt="Пользователь" class="user-icon">
+                <span class="welcome">Добро пожаловать, {{ user.username }}!</span>
+                <a href="{% url 'logout' %}" class="auth">Выход</a>
+            </div>
+        {% else %}
+            <a href="{% url 'registration' %}" class="auth">Регистрация / Вход</a>
+        {% endif %}
+    </header>
+      <main class="main">
+        <h2>Наш Каталог</h2>
+        <div class="search-container mb-4">
+            <input type="text" id="searchInput" class="form-control" placeholder="Поиск товаров (по названию или описанию)...">
+        </div>
+        <div class="filter-bar">
+            <div class="categories">
+                <a href="?category=all" class="{% if current_category == 'all' or not current_category %}active{% endif %}">Все</a>
+                <a href="?category=women" class="{% if current_category == 'women' %}active{% endif %}">Женское</a>
+                <a href="?category=men" class="{% if current_category == 'men' %}active{% endif %}">Мужское</a>
+                <a href="?category=discount" class="{% if current_category == 'discount' %}active{% endif %}">Скидки</a>
+            </div>
+            <div class="filter">
+                <select id="sortSelect" class="filter-select" onchange="sortProducts()">
+                    <option value="">Сортировать по</option>
+                    <option value="price_asc" {% if current_sort == 'price_asc' %}selected{% endif %}>Цене: по возрастанию</option>
+                    <option value="price_desc" {% if current_sort == 'price_desc' %}selected{% endif %}>Цене: по убыванию</option>
+                </select>
+            </div>
+        </div>
+        <div id="noResults" class="no-results">
+            Товары не найдены. Попробуйте изменить поисковый запрос.
+        </div>
+        <div class="catalog" id="catalogContainer">
+            {% if current_category == 'discount' %}
+                {% for product in products %}
+                    {% if product.discount_price %}
+                    <div class="catalog-item">
+                        <div class="discount-badge">
+                            -{{ product.get_discount_percentage }}%
+                        </div>
+                        <div id="productCarousel{{ product.id }}" class="carousel slide" data-ride="carousel">
+                            <div class="carousel-inner">
+                                {% for image in product.images.all %}
+                                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                    <img src="{{ image.image.url }}" alt="Изображение товара" class="d-block w-100">
+                                </div>
+                                {% endfor %}
+                            </div>
+                            <a class="carousel-control-prev" href="#productCarousel{{ product.id }}" role="button" data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Предыдущее</span>
+                            </a>
+                            <a class="carousel-control-next" href="#productCarousel{{ product.id }}" role="button" data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Следующее</span>
+                            </a>
+                        </div>
+                        <h3>{{ product.name }}</h3>
+                        <p>{{ product.description }}</p>
+                        <p class="old-price">Цена: {{ product.price }} руб.</p>
+                        <p class="discount">Скидка: {{ product.discount_price }} руб.</p>
+                        <div class="sizes">
+                            <select name="size" id="size_select_{{ product.id }}" class="size-select" required>
+                                <option value="">Выберите размер</option>
+                                {% for size in product.sizes.all %}
+                                <option value="{{ size.id }}">{{ size.name }}</option>
+                                {% endfor %}
+                            </select>
+                            <div id="size_error_{{ product.id }}" class="error-message">Пожалуйста, выберите размер</div>
+                        </div>
+                        <div class="color-selection">
+                            <label>Выберите цвет:</label>
+                            <div class="color-options">
+                                {% for color in product.colors.all %}
+                                <label class="color-option">
+                                    <input type="radio" name="color_{{ product.id }}" value="{{ color.id }}" {% if forloop.first %}checked{% endif %} class="color-radio">
+                                    <span class="color-circle" style="background-color: {{ color.hex_code }}"></span>
+                                </label>
+                                {% endfor %}
+                            </div>
+                            <div id="color_error_{{ product.id }}" class="error-message">Пожалуйста, выберите цвет</div>
+                        </div>
+                        {% if user.is_authenticated and not user.is_staff %}
+                        <form action="{% url 'add_to_cart' %}" method="post" class="add-to-cart-form" data-product-id="{{ product.id }}">
+                            {% csrf_token %}
+                            <input type="hidden" name="product_id" value="{{ product.id }}">
+                            <input type="hidden" name="size" id="size_{{ product.id }}" value="">
+                            <input type="hidden" name="color" id="color_{{ product.id }}" value="{{ product.colors.first.id }}">
+                           <button type="submit" class="btn btn-primary mt-3">Добавить в корзину</button>
+                        </form>
+                        {% elif user.is_authenticated and user.is_staff %}
+                        <div class="alert alert-info mt-3">
+                            Администраторы не могут добавлять товары в корзину.
+                        </div>
+                        {% else %}
+                        <div class="alert alert-danger mt-3">
+                            Чтобы добавить товар в корзину, пожалуйста, <a href="{% url 'registration' %}" class="link">зарегистрируйтесь</a> или <a href="{% url 'login' %}" class="link">войдите</a>.
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                {% empty %}
+                    <div class="no-results" style="display: block; width: 100%;">
+                        Нет товаров со скидками в данный момент
+                    </div>
+                {% endfor %}
+            {% else %}
+                {% for product in products %}
+                    <div class="catalog-item">
+                        {% if product.discount_price %}
+                        <div class="discount-badge">
+                            -{{ product.get_discount_percentage }}%
+                        </div>
+                        {% endif %}
+                        <div id="productCarousel{{ product.id }}" class="carousel slide" data-ride="carousel">
+                            <div class="carousel-inner">
+                                {% for image in product.images.all %}
+                                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                    <img src="{{ image.image.url }}" alt="Изображение товара" class="d-block w-100">
+                                </div>
+                                {% endfor %}
+                            </div>
+                            <a class="carousel-control-prev" href="#productCarousel{{ product.id }}" role="button" data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Предыдущее</span>
+                            </a>
+                            <a class="carousel-control-next" href="#productCarousel{{ product.id }}" role="button" data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Следующее</span>
+                            </a>
+                        </div>
+                        <h3>{{ product.name }}</h3>
+                        <p>{{ product.description }}</p>
+                        {% if product.discount_price %}
+                        <p class="old-price">Цена: {{ product.price }} руб.</p>
+                        <p class="discount">Скидка: {{ product.discount_price }} руб.</p>
+                        {% else %}
+                        <p>Цена: {{ product.price }} руб.</p>
+                        {% endif %}
+                        <div class="sizes">
+                            <select name="size" id="size_select_{{ product.id }}" class="size-select" required>
+                                <option value="">Выберите размер</option>
+                                {% for size in product.sizes.all %}
+                                <option value="{{ size.id }}">{{ size.name }}</option>
+                                {% endfor %}
+                            </select>
+                            <div id="size_error_{{ product.id }}" class="error-message">Пожалуйста, выберите размер</div>
+                        </div>
+                        <div class="color-selection">
+                            <label>Выберите цвет:</label>
+                            <div class="color-options">
+                                {% for color in product.colors.all %}
+                                <label class="color-option">
+                                    <input type="radio" name="color_{{ product.id }}" value="{{ color.id }}" {% if forloop.first %}checked{% endif %} class="color-radio">
+                                    <span class="color-circle" style="background-color: {{ color.hex_code }}"></span>
+                                </label>
+                                {% endfor %}
+                            </div>
+                            <div id="color_error_{{ product.id }}" class="error-message">Пожалуйста, выберите цвет</div>
+                        </div>
+                        {% if user.is_authenticated and not user.is_staff %}
+                        {% if product.stock > 0 %}
+                        <form action="{% url 'add_to_cart' %}" method="post" class="add-to-cart-form" data-product-id="{{ product.id }}">
+                            {% csrf_token %}
+                            <input type="hidden" name="product_id" value="{{ product.id }}">
+                            <input type="hidden" name="size" id="size_{{ product.id }}" value="">
+                            <input type="hidden" name="color" id="color_{{ product.id }}" value="{{ product.colors.first.id }}">
+                            <button type="submit" class="btn btn-primary mt-3">Добавить в корзину</button>
+                        </form>
+                        {% else %}
+                            <div class="alert alert-warning mt-3">
+                                Товар закончился
+                            </div>
+                        {% endif %}
+                        {% elif user.is_authenticated and user.is_staff %}
+                        <div class="alert alert-info mt-3">
+                            Администраторы не могут добавлять товары в корзину.
+                        </div>
+                        {% else %}
+                        <div class="alert alert-danger mt-3">
+                            Чтобы добавить товар в корзину, пожалуйста, <a href="{% url 'registration' %}" class="link">зарегистрируйтесь</a> или <a href="{% url 'login' %}" class="link">войдите</a>.
+                        </div>
+                        {% endif %}
+                    </div>
+                {% empty %}
+                    <div class="no-results" style="display: block; width: 100%;">
+                        Нет товаров в данной категории
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </main>
+    <footer>
+        <div class="footer-content">
+            <h1>Climate Wear © 2025 Все права защищены.</h1>
+        </div>
+    </footer>
+
+    <script>
+        function sortProducts() {
+            const sortValue = document.getElementById('sortSelect').value;
+            const urlParams = new URLSearchParams(window.location.search);
+
+            if (sortValue) {
+                urlParams.set('sort', sortValue);
+            } else {
+                urlParams.delete('sort');
+            }
+
+            const category = urlParams.get('category') || 'all';
+            urlParams.set('category', category);
+
+            window.location.search = urlParams.toString();
+        }
+
+        // Обработка форм добавления в корзину
+        document.querySelectorAll('.add-to-cart-form').forEach(form => {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const productId = this.dataset.productId;
+                const sizeSelect = document.getElementById(`size_select_${productId}`);
+                const sizeError = document.getElementById(`size_error_${productId}`);
+                const colorRadios = document.querySelectorAll(`input[name="color_${productId}"]`);
+                const colorError = document.getElementById(`color_error_${productId}`);
+                let colorSelected = false;
+
+                // Проверка выбора размера
+                if (!sizeSelect.value) {
+                    sizeSelect.classList.add('is-invalid');
+                    sizeError.style.display = 'block';
+                } else {
+                    sizeSelect.classList.remove('is-invalid');
+                    sizeError.style.display = 'none';
+                }
+
+                // Проверка выбора цвета
+                colorRadios.forEach(radio => {
+                    if (radio.checked) {
+                        colorSelected = true;
+                    }
+                });
+
+                if (!colorSelected) {
+                    colorError.style.display = 'block';
+                } else {
+                    colorError.style.display = 'none';
+                }
+
+                // Если все проверки пройдены
+                if (sizeSelect.value && colorSelected) {
+                    // Устанавливаем значения в скрытые поля
+                    document.getElementById(`size_${productId}`).value = sizeSelect.value;
+                    document.getElementById(`color_${productId}`).value =
+                        document.querySelector(`input[name="color_${productId}"]:checked`).value;
+
+                    // Отправляем форму
+                    this.submit();
+                } else {
+                    // Прокрутка к первой ошибке
+                    if (!sizeSelect.value) {
+                        sizeSelect.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    } else if (!colorSelected) {
+                        colorError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }
+            });
+        });
+
+        // Обработка изменения размера
+        document.querySelectorAll('.size-select').forEach(select => {
+            select.addEventListener('change', function() {
+                const productId = this.id.split('_')[2];
+                const errorElement = document.getElementById(`size_error_${productId}`);
+                if (this.value) {
+                    this.classList.remove('is-invalid');
+                    errorElement.style.display = 'none';
+                }
+            });
+        });
+
+        // Обработка изменения цвета
+        document.querySelectorAll('.color-radio').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const nameParts = this.name.split('_');
+                const productId = nameParts[1];
+                const errorElement = document.getElementById(`color_error_${productId}`);
+                errorElement.style.display = 'none';
+            });
+        });
+
+        // Поиск товаров
+        document.getElementById('searchInput').addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const items = document.querySelectorAll('.catalog-item');
+            let visibleItems = 0;
+
+            items.forEach(item => {
+                const title = item.querySelector('h3').textContent.toLowerCase();
+                const description = item.querySelector('p').textContent.toLowerCase();
+
+                if (title.includes(searchTerm) || description.includes(searchTerm)) {
+                    item.style.display = 'flex';
+                    visibleItems++;
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+
+            const noResults = document.getElementById('noResults');
+            if (visibleItems === 0 && searchTerm.length > 0) {
+                noResults.style.display = 'block';
+            } else {
+                noResults.style.display = 'none';
+            }
+
+            if (searchTerm.length === 0) {
+                items.forEach(item => {
+                    item.style.display = 'flex';
+                });
+                noResults.style.display = 'none';
+            }
+        });
+
+        // Инициализация каруселей
+        $(document).ready(function() {
+            $('.carousel').carousel({
+                interval: false
+            });
+        });
+    </script>
+</body>
+</html>

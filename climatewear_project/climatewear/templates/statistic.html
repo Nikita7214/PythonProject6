@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Статистика продаж - ClimateWear</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body { font-family: 'Roboto', sans-serif; background-color: #f8f9fa; text-align: center; padding: 40px; }
+        .btn-export { background-color: #6F4C3E; color: white; border: none; padding: 10px 20px; border-radius: 5px; margin: 10px; cursor: pointer; }
+        .btn-export:hover { background-color: #5A3E2E; }
+    </style>
+</head>
+<body>
+    <h1>Статистика продаж</h1>
+    <div class="container">
+        <h3>Выберите период для скачивания статистики:</h3>
+        <a href="{% url 'export_statistics' %}?period=day" class="btn btn-export">Скачать за день</a>
+        <a href="{% url 'export_statistics' %}?period=week" class="btn btn-export">Скачать за неделю</a>
+        <a href="{% url 'export_statistics' %}?period=all" class="btn btn-export">Скачать за весь период</a>
+    </div>
+</body>
+</html>
